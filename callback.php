@@ -22,7 +22,8 @@ if ($token) {
 ?>
 <form method=POST action='register.php'>
     授权完成, 请输入您的email地址<br>
-<input name='email' value='提交'/>
+<input name='email'/>
+<input type="submit" />
 </form>
 <?php
 } 
