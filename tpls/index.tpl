@@ -93,7 +93,7 @@
         <table class="table">
           <tr>
             <td>邮箱</td> 
-            <td>已发送的微博的最后收藏时间</td>
+            <td>已发送的最新收藏的微博的收藏时间</td>
           </tr> 
             <{foreach $userEmails as $email}>
             <tr>

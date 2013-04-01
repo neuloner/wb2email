@@ -13,10 +13,13 @@ if (isset($_REQUEST['code'])) {
 	$keys['redirect_uri'] = WB_CALLBACK_URL;
 	try {
 		$token = $o->getAccessToken( 'code', $keys ) ;
+//        var_dump($token);
 	} catch (OAuthException $e) {
+        $token = $_SESSION['token'];
 	}
+} else {
+    $token = $_SESSION['token'];
 }
-$token = $_SESSION['token'];
 
 if (isset($token)) {
     $tplData['tokenSuccess'] = 1;
@@ -24,7 +27,15 @@ if (isset($token)) {
 	setcookie( 'weibojs_'.$o->client_id, http_build_query($token) );
     $c = new SaeTClientV2( WB_AKEY , WB_SKEY , $token['access_token'] );
     $uid_get = $c->get_uid();
+//    var_dump($uid_get);
+    if($uid_get['error_code'] > 0) {
+        $message = "对不起，授权失败 错误信息".$uid_get['error'];
+        $smarty->assign("message",$message);
+        $smarty->display("register.tpl");
+        exit;    
+    }
     $uid = $uid_get['uid'];
+//    var_dump($uid);
     $userInfo = $c->show_user_by_id($uid);
     $tplData['screenName'] = $userInfo['screen_name'];
     $userId = getUserId($uid);
